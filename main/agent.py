@@ -1,67 +1,76 @@
-import datetime
-from zoneinfo import ZoneInfo
-from google.adk.agents import Agent
+import firebase_admin
+from firebase_admin import credentials, firestore
+import logging
+from typing import Dict, Optional, Callable
 
-def get_weather(city: str) -> dict:
-    """Retrieves the current weather report for a specified city.
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+# Mock google.adk classes (replace with actual google.adk imports when available)
+class Tool:
+    """Mock Tool class to simulate google.adk.tools.Tool."""
+    def __init__(self, function: Callable):
+        self.function = function
+
+class Agent:
+    """Mock Agent class to simulate google.adk.agents.Agent."""
+    def __init__(self, name: str, model: str, description: str, instruction: str, tools: list):
+        self.name = name
+        self.model = model
+        self.description = description
+        self.instruction = instruction
+        self.tools = tools
+
+# Initialize Firebase Admin SDK
+try:
+    cred = credentials.Certificate('firebase-adminsdk.json')
+    firebase_admin.initialize_app(cred)
+    db = firestore.client()
+except Exception as e:
+    logger.error(f"Failed to initialize Firebase: {str(e)}")
+    raise
+
+def store_receipt_data(data: Dict) -> Dict[str, any]:
+    """Stores receipt data in Firebase Firestore.
 
     Args:
-        city (str): The name of the city for which to retrieve the weather report.
+        data (Dict): The receipt data to store.
 
     Returns:
-        dict: status and result or error msg.
+        Dict[str, any]: Dictionary containing status, stored data, or error message.
     """
-    if city.lower() == "new york":
+    try:
+        # Store in Firebase
+        doc_ref = db.collection('receipts').document()
+        doc_ref.set(data)
+        logger.info(f"Stored receipt data in Firebase with ID: {doc_ref.id}")
+        
         return {
             "status": "success",
-            "report": (
-                "The weather in New York is sunny with a temperature of 25 degrees"
-                " Celsius (77 degrees Fahrenheit)."
-            ),
+            "data": data,
+            "firebase_id": doc_ref.id
         }
-    else:
+    except Exception as e:
+        logger.error(f"Error in store_receipt_data: {str(e)}")
         return {
             "status": "error",
-            "error_message": f"Weather information for '{city}' is not available.",
+            "error_message": f"Failed to store receipt data: {str(e)}"
         }
 
-
-def get_current_time(city: str) -> dict:
-    """Returns the current time in a specified city.
-
-    Args:
-        city (str): The name of the city for which to retrieve the current time.
-
-    Returns:
-        dict: status and result or error msg.
-    """
-
-    if city.lower() == "new york":
-        tz_identifier = "America/New_York"
-    else:
-        return {
-            "status": "error",
-            "error_message": (
-                f"Sorry, I don't have timezone information for {city}."
-            ),
-        }
-
-    tz = ZoneInfo(tz_identifier)
-    now = datetime.datetime.now(tz)
-    report = (
-        f'The current time in {city} is {now.strftime("%Y-%m-%d %H:%M:%S %Z%z")}'
-    )
-    return {"status": "success", "report": report}
-
-
-root_agent = Agent(
-    name="weather_time_agent",
-    model="gemini-2.5-flash",
+# Define the agent
+receipt_agent = Agent(
+    name="receipt_agent",
+    model="gemini-2.0-flash",
     description=(
-        "Agent to answer questions about the time and weather in a city."
+        "An agent that stores receipt data in Firebase Firestore."
     ),
     instruction=(
-        "You are a helpful agent who can answer user questions about the time and weather in a city."
+        "You are a smart data storage agent. Use the store_receipt_data tool to store "
+        "receipt data in Firebase Firestore. Return the stored data or an error message "
+        "if storage fails."
     ),
-    tools=[get_weather, get_current_time],
+    tools=[
+        Tool(store_receipt_data)
+    ],
 )
