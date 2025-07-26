@@ -41,14 +41,26 @@ def store_receipt_data(data: Dict) -> Dict[str, any]:
         Dict[str, any]: Dictionary containing status, stored data, or error message.
     """
     try:
+        # Ensure data types are Firestore-compatible
+        processed_data = {
+            "merchant": str(data.get("merchant", "Unknown")),
+            "date": str(data.get("date", "")),
+            "total": float(data.get("total", 0.0)),
+            "items": [
+                {"name": str(item.get("name", "")), "price": float(item.get("price", 0.0))}
+                for item in data.get("items", [])
+            ],
+            "timestamp": str(data.get("timestamp", ""))
+        }
+        
         # Store in Firebase
         doc_ref = db.collection('receipts').document()
-        doc_ref.set(data)
+        doc_ref.set(processed_data)
         logger.info(f"Stored receipt data in Firebase with ID: {doc_ref.id}")
         
         return {
             "status": "success",
-            "data": data,
+            "data": processed_data,
             "firebase_id": doc_ref.id
         }
     except Exception as e:
