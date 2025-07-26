@@ -1,8 +1,7 @@
 from google.adk.agents import Agent
 
-from .sub_agents.receipt_proc.agent import receipt_proc
+from .sub_agents.receipt_processor.agent import receipt_processor
 from .sub_agents.google_wallet.agent import google_wallet
-from .sub_agents.firebase_storage.agent import firebase_storage
 from .sub_agents.query_execution.agent import query_execution
 
 root_agent = Agent(
@@ -16,15 +15,13 @@ root_agent = Agent(
     Always delegate tasks to the appropriate sub-agent. Use your best judgement to determine which sub-agent is best suited for the task at hand.
 
     Each sub-agent has a specific task:
-    1. receipt_proc: Processes receipts and extracts information.
+    1. receipt_processor: Processes receipts and extracts information.
     2. google_wallet: Manages Google Wallet transactions.
-    3. firebase_storage: Handles file storage and retrieval in Firebase.
-    4. query_execution: Executes queries and retrieves information from Firebase.
+    3. query_execution: Executes queries and retrieves information from Firebase.
     """,
     sub_agents=[
-        receipt_proc,
+        receipt_processor,
         google_wallet,
-        firebase_storage,
         query_execution,
     ],
 )
