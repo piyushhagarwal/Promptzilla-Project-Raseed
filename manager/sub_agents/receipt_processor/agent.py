@@ -131,6 +131,7 @@ receipt_processor = Agent(
     description="This agent processes receipts images and extracts structured data from them.", 
     instruction="""
     You are a helpful assistant that processes receipts.
+    If the user provides a receipt image in different languages, convert it to English using OCR and extract structured data from it.
     Extract structured data from the receipt image and call the tool `store_receipt_data` to store the extracted data in Firebase Firestore.
     This is the format:
     {
