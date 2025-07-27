@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Your Invoice</title>
+        <style>
+            /* Google Font Import */
+            @import url("https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@400;500;700&display=swap");
+
+            /* Reset Styles */
+            body,
+            table,
+            td,
+            a {
+                -webkit-text-size-adjust: 100%;
+                -ms-text-size-adjust: 100%;
+            }
+            table,
+            td {
+                mso-table-lspace: 0pt;
+                mso-table-rspace: 0pt;
+            }
+            img {
+                -ms-interpolation-mode: bicubic;
+                border: 0;
+                height: auto;
+                line-height: 100%;
+                outline: none;
+                text-decoration: none;
+            }
+            table {
+                border-collapse: collapse !important;
+            }
+            body {
+                height: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                width: 100% !important;
+                background-color: #f1f3f4;
+            }
+
+            /* General Styles */
+            .wrapper {
+                width: 100%;
+                max-width: 600px;
+                margin: 0 auto;
+                background-color: #ffffff;
+                border-radius: 8px;
+                overflow: hidden;
+                border: 1px solid #dadce0;
+            }
+
+            .header {
+                padding: 24px;
+                background-color: #ffffff;
+                border-bottom: 1px solid #dadce0;
+            }
+
+            .header-table {
+                width: 100%;
+            }
+
+            .header-table .company-logo {
+                width: 120px;
+            }
+
+            .header-table .wallet-logo-container {
+                text-align: right;
+            }
+
+            .header-table .wallet-logo {
+                width: 170px;
+                /* height: 32px; */
+                vertical-align: middle;
+                margin-right: 8px;
+            }
+
+            .header-table .wallet-text {
+                font-family: "Roboto", sans-serif;
+                font-size: 14px;
+                color: #5f6368;
+                vertical-align: middle;
+            }
+
+            .content {
+                padding: 32px;
+                font-family: "Roboto", sans-serif;
+                color: #3c4043;
+                line-height: 1.6;
+            }
+
+            .content h1 {
+                font-family: "Google Sans", sans-serif;
+                font-size: 24px;
+                font-weight: 700;
+                color: #202124;
+                margin: 0 0 16px;
+            }
+
+            .content p {
+                font-size: 16px;
+                margin: 0 0 24px;
+            }
+
+            .hero-image img {
+                width: 100%;
+                max-width: 600px;
+                height: auto;
+                display: block;
+            }
+
+            .wallet-button-container {
+                text-align: center;
+                margin: 32px 0;
+            }
+
+            .wallet-button img {
+                display: block;
+                height: 48px;
+                width: auto;
+            }
+
+            .invoice-table {
+                width: 100%;
+                margin-top: 24px;
+                border-top: 1px solid #e0e0e0;
+                border-bottom: 1px solid #e0e0e0;
+            }
+
+            .invoice-table th {
+                text-align: left;
+                padding: 12px;
+                font-family: "Google Sans", sans-serif;
+                font-weight: 500;
+                color: #5f6368;
+                border-bottom: 1px solid #e0e0e0;
+                background-color: #f8f9fa;
+            }
+
+            .invoice-table td {
+                padding: 12px;
+                font-size: 14px;
+                color: #3c4043;
+                border-bottom: 1px solid #e0e0e0;
+            }
+
+            .invoice-table tr:last-child td {
+                border-bottom: none;
+            }
+
+            .invoice-table .align-right {
+                text-align: right;
+            }
+
+            .totals-table {
+                width: 100%;
+                margin-top: 24px;
+            }
+
+            .totals-table td {
+                padding: 4px 0;
+                font-size: 14px;
+            }
+
+            .totals-table .label {
+                color: #5f6368;
+                text-align: right;
+                padding-right: 16px;
+            }
+
+            .totals-table .value {
+                font-weight: 500;
+                color: #202124;
+                text-align: right;
+            }
+
+            .totals-table .grand-total .label,
+            .totals-table .grand-total .value {
+                font-size: 16px;
+                font-weight: 700;
+                padding-top: 8px;
+                border-top: 2px solid #3c4043;
+            }
+
+            .footer {
+                padding: 24px;
+                text-align: center;
+                font-family: "Roboto", sans-serif;
+                font-size: 12px;
+                color: #5f6368;
+            }
+
+            .footer a {
+                color: #1a73e8;
+                text-decoration: none;
+            }
+
+            /* Responsive Styles */
+            @media screen and (max-width: 600px) {
+                .wrapper {
+                    width: 100% !important;
+                    border-radius: 0;
+                    border: none;
+                }
+                .content {
+                    padding: 24px;
+                }
+                .header-table .wallet-text {
+                    display: none;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <table border="0" cellpadding="0" cellspacing="0" width="100%">
+            <tr>
+                <td align="center" style="padding: 20px 0">
+                    <div class="wrapper">
+                        <table
+                            border="0"
+                            cellpadding="0"
+                            cellspacing="0"
+                            width="100%"
+                        >
+                            <!-- HEADER -->
+                            <tr>
+                                <td class="header">
+                                    <table
+                                        class="header-table"
+                                        border="0"
+                                        cellpadding="0"
+                                        cellspacing="0"
+                                        width="100%"
+                                    >
+                                        <tr>
+                                            <td>
+                                                <img
+                                                    src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png"
+                                                    alt="Your Company Logo"
+                                                    class="company-logo"
+                                                />
+                                            </td>
+                                            <td class="wallet-logo-container">
+                                                <img
+                                                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Google_Wallet_icon.svg/2560px-Google_Wallet_icon.svg.png"
+                                                    alt="Wallet"
+                                                    class="wallet-logo"
+                                                />
+                                                <!-- <span class="wallet-text"
+                                                    >Wallet</span
+                                                > -->
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <!-- HERO IMAGE (Optional) -->
+                            <tr>
+                                <td class="hero-image">
+                                    <!-- The image will be embedded here from the Python script -->
+                                    <img
+                                        src="cid:invoiceimage"
+                                        alt="Invoice Item"
+                                    />
+                                </td>
+                            </tr>
+                            <!-- CONTENT -->
+                            <tr>
+                                <td class="content">
+                                    <h1>Hello Mihir Deshpande</h1>
+                                    <p>
+                                        Here is your invoice ready to be added
+                                        to your Google Wallet for your records.
+                                    </p>
+
+                                    <!-- INVOICE ITEMS TABLE -->
+                                    <!-- <table
+                                        class="invoice-table"
+                                        border="0"
+                                        cellpadding="0"
+                                        cellspacing="0"
+                                        width="100%"
+                                    >
+                                        <thead>
+                                            <tr>
+                                                <th>Item Description</th>
+                                                <th class="align-right">Qty</th>
+                                                <th class="align-right">
+                                                    Price
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Premium Web Hosting</td>
+                                                <td class="align-right">1</td>
+                                                <td class="align-right">
+                                                    $240.00
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    Domain Registration (.com)
+                                                </td>
+                                                <td class="align-right">1</td>
+                                                <td class="align-right">
+                                                    $15.00
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>SSL Certificate</td>
+                                                <td class="align-right">1</td>
+                                                <td class="align-right">
+                                                    $45.00
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table> -->
+
+                                    <!-- TOTALS -->
+                                    <!-- <table
+                                        class="totals-table"
+                                        border="0"
+                                        cellpadding="0"
+                                        cellspacing="0"
+                                        width="100%"
+                                    >
+                                        <tr>
+                                            <td width="70%" class="label">
+                                                Subtotal
+                                            </td>
+                                            <td class="value">$300.00</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="label">Tax (8%)</td>
+                                            <td class="value">$24.00</td>
+                                        </tr>
+                                        <tr class="grand-total">
+                                            <td class="label">Total Due</td>
+                                            <td class="value">$324.00</td>
+                                        </tr>
+                                    </table> -->
+
+                                    <!-- GOOGLE WALLET BUTTON -->
+                                    <div class="wallet-button-container">
+                                        <a
+                                            href="{YOUR_WALLET_LINK_HERE}"
+                                            target="_blank"
+                                        >
+                                            <img
+                                                src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Add_to_Google_Wallet_badge.svg/398px-Add_to_Google_Wallet_badge.svg.png?20220720184210"
+                                                alt="Add to Google Wallet"
+                                            />
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <!-- FOOTER -->
+                            <tr>
+                                <td class="footer">
+                                    <p>
+                                        If you have any questions, contact our
+                                        support team.
+                                    </p>
+                                    <p>
+                                        &copy; 2025 Project Raseed. All Rights
+                                        Reserved.
+                                    </p>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </body>
+</html>
